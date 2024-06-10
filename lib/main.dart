@@ -98,6 +98,7 @@ class HomePageState extends State<HomePage> {
   void _sendMyNameCard(BluetoothDevice device) async {
     String content = _myNameCard.toJson();
     try {
+      // 通过蓝牙发送名片
       await BluetoothConnection.toAddress(device.address).then((connection) {
         connection.output.add(utf8.encode(content));
         connection.output.allSent.then((_) {
@@ -105,6 +106,7 @@ class HomePageState extends State<HomePage> {
         });
       });
     } catch (e) {
+      // 通过WebSocket发送名片
       channel.sink.add('${device.name},$content');
     }
   }
